@@ -31,4 +31,12 @@ public class Message implements Serializable {
         this.author = author;
     }
 
+    @Override
+    public String toString() {
+        return "Message{" +
+                "content='" + content + '\'' +
+                ", author='" + author + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }
