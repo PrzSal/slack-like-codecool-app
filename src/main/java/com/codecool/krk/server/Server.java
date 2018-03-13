@@ -36,7 +36,6 @@ public class Server {
     }
 
     public Set<String> getUserNames() {
-
+        return this.userThreads.keySet();
     }
-
 }
