@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class Server {
+    private final String name = "SERVER";
     private BufferedReader stdIn;
     private int portNumber;
     private HashMap<String, Thread> userThreads;
@@ -22,6 +23,10 @@ public class Server {
         this.portNumber = portNumber;
 
         this.userThreads = new LinkedHashMap<>();
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void execute() {
