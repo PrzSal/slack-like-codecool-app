@@ -4,6 +4,8 @@ import com.codecool.krk.message.Message;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -27,14 +29,16 @@ public class Server {
             System.out.printf("Chat Server is listening on port %d\n", this.portNumber);
 
             while (true) {
-                try (Socket socket = serverSocket.accept()) {
+                try (Socket socket = serverSocket.accept();
+                     ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                     ObjectInputStream in = new ObjectInputStream(socket.getInputStream())
+                ) {
                     System.out.println("New user connected");
 
-                    Thread newUserThread = new UserThread(socket, this);
+                    Thread newUserThread = new UserThread(this, out, in);
                     newUserThread.start();
                 }
             }
-
         } catch (IOException e) {
             System.out.println("Error in the server: " + e.getMessage());
             e.printStackTrace();
