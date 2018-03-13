@@ -1,5 +1,7 @@
 package com.codecool.krk.server;
 
+import com.codecool.krk.message.Message;
+
 import java.io.BufferedReader;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -17,6 +19,10 @@ public class Server {
     }
 
     public void execute() {
+
+    }
+
+    public void broadcastMessage(Message message, Thread excludeUser) {
 
     }
 }
