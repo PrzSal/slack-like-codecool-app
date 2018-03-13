@@ -32,8 +32,10 @@ public class UserThread extends Thread {
                 Message clientMessage;
                 do {
                     clientMessage = (Message) in.readObject();
-                    server.broadcastMessage(clientMessage, this);
-                } while (clientMessage.getContent().equalsIgnoreCase(".quit!"));
+                    if (!clientMessage.getContent().equalsIgnoreCase(".quit!")) {
+                        server.broadcastMessage(clientMessage, this);
+                    }
+                } while (!clientMessage.getContent().equalsIgnoreCase(".quit!"));
 
                 sendMessageUserQuit(controlMessage);
                 server.removeUser(clientMessage.getAuthor());
