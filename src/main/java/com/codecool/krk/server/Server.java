@@ -2,10 +2,7 @@ package com.codecool.krk.server;
 
 import com.codecool.krk.message.Message;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -14,12 +11,10 @@ import java.util.Set;
 
 public class Server {
     private final String name = "SERVER";
-    private BufferedReader stdIn;
     private int portNumber;
     private HashMap<String, Thread> userThreads;
 
-    public Server(BufferedReader stdIn, int portNumber) {
-        this.stdIn = stdIn;
+    public Server(int portNumber) {
         this.portNumber = portNumber;
 
         this.userThreads = new LinkedHashMap<>();
@@ -34,18 +29,12 @@ public class Server {
             System.out.printf("Chat Server is listening on port %d\n", this.portNumber);
 
             while (true) {
-                try {
-                    Socket socket = serverSocket.accept();
-                    ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                    System.out.println("New user connected");
+                Socket socket = serverSocket.accept();
 
-                    Thread newUserThread = new UserThread(this, out, in);
-                    newUserThread.start();
-                } catch (IOException e) {
-                    System.out.println("Error in the server: " + e.getMessage());
-                    e.printStackTrace();
-                }
+                System.out.println("New user connected");
+
+                Thread newUserThread = new UserThread(socket,this);
+                newUserThread.start();
             }
         } catch (IOException e) {
             System.out.println("Error in the server: " + e.getMessage());
@@ -88,8 +77,9 @@ public class Server {
 
     public String getFormattedUsersList() {
         StringBuilder sb = new StringBuilder("");
+        sb.append("Users list:\n");
         for (String userName: getUserNames()) {
-            sb.append(String.format("%s\n", userName));
+            sb.append(String.format("\t%s\n", userName));
         }
         return sb.toString();
     }

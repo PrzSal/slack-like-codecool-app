@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class SlackController {
-
-    String[] args;
+    private String[] args;
 
     public SlackController(String[] args) {
         this.args = args;
@@ -87,8 +86,8 @@ public class SlackController {
         }
     }
 
-    private void startServer(BufferedReader stdIn, int portNumber) {
-        Server server = new Server(stdIn, portNumber);
+    private void startServer(int portNumber) {
+        Server server = new Server(portNumber);
         server.execute();
     }
 
@@ -100,7 +99,7 @@ public class SlackController {
             if (portNumber != -1) {
                 switch (userChoice) {
                     case SERVER:
-                        startServer(stdIn, portNumber);
+                        startServer(portNumber);
                         break;
                     case CLIENT:
                         String hostName = getHostName();
