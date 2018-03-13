@@ -5,6 +5,7 @@ import com.codecool.krk.server.Server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class SlackController {
 
@@ -89,5 +90,29 @@ public class SlackController {
     private void startServer(BufferedReader stdIn, int portNumber) {
         Server server = new Server(stdIn, portNumber);
         server.execute();
+    }
+
+    private void startNetChat() {
+        try (BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))){
+            int portNumber = getPortNumber();
+            Mode userChoice = getUserChoice();
+
+            if (portNumber != -1) {
+                switch (userChoice) {
+                    case SERVER:
+                        startServer(stdIn, portNumber);
+                        break;
+                    case CLIENT:
+                        String hostName = getHostName();
+                        startClient(stdIn, hostName, portNumber);
+                        break;
+                    default:
+                        System.err.println("No such mode");
+                        break;
+                }
+            }
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }
