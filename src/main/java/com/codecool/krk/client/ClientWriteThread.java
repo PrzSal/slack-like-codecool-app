@@ -17,6 +17,13 @@ public class ClientWriteThread extends Thread {
 
     @Override
     public void run() {
+        try {
+            Message controlMessage = new Message("control", this.client.getUserName());
+            objectOutputStream.writeObject(controlMessage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         String userInput;
         do {
             try {
