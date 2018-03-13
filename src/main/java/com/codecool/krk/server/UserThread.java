@@ -33,9 +33,8 @@ public class UserThread extends Thread {
                     server.broadcastMessage(clientMessage, this);
                 } while (clientMessage.getContent().equalsIgnoreCase(".quit!"));
 
-                server.removeUser(clientMessage.getAuthor());
-
                 sendMessageUserQuit(controlMessage);
+                server.removeUser(clientMessage.getAuthor());
             } else {
                 // maybe custom exception
                 throw new NoSuchElementException("No control message from Client");
