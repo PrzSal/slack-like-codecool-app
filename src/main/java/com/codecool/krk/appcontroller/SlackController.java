@@ -116,7 +116,7 @@ public class SlackController {
         }
     }
 
-    private void startApp() {
+    public void startApp() {
         try {
             if (this.args.length >= 2 && this.args.length <= 3) {
                 startNetChat();
