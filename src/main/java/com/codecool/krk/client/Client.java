@@ -1,6 +1,11 @@
 package com.codecool.krk.client;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Client {
 
@@ -41,6 +46,27 @@ public class Client {
     public void setInput(Thread input) {
         this.input = input;
     }
+
+    public void execute() {
+        try (Socket serverSocket = new Socket(this.hostName, this.portNumber);
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(serverSocket.getOutputStream());
+             ObjectInputStream objectInputStream = new ObjectInputStream(serverSocket.getInputStream())
+        ){
+            this.output = new ClientWriteThread(objectOutputStream, this);
+            this.input = new ClientReadThread(objectInputStream);
+
+            output.start();
+            input.start();
+
+            while (!this.input.isInterrupted());
+
+        } catch (UnknownHostException e) {
+            System.err.println(e.getMessage());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
 
     public void interruptThreads() {
         this.output.interrupt();
