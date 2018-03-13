@@ -1,5 +1,7 @@
 package com.codecool.krk.appcontroller;
 
+import com.codecool.krk.client.Client;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -69,6 +71,17 @@ public class SlackController {
             e.printStackTrace();
         } finally {
             return userName;
+        }
+    }
+
+    private void startClient(BufferedReader stdIn, String hostName, int portNumber) {
+        if (hostName != null) {
+            String userName = getUserName(stdIn);
+
+            if (userName != null) {
+                Client client = new Client(stdIn, hostName, portNumber, userName);
+                client.execute();
+            }
         }
     }
 }
