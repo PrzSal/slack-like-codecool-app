@@ -27,11 +27,12 @@ public class Server {
             System.out.printf("Chat Server is listening on port %d\n", this.portNumber);
 
             while (true) {
-                Socket socket = serverSocket.accept();
-                System.out.println("New user connected");
+                try (Socket socket = serverSocket.accept()) {
+                    System.out.println("New user connected");
 
-                Thread newUserThread = new UserThread(socket, this);
-                newUserThread.start();
+                    Thread newUserThread = new UserThread(socket, this);
+                    newUserThread.start();
+                }
             }
 
         } catch (IOException e) {
