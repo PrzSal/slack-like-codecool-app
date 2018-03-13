@@ -39,4 +39,20 @@ public class SlackController {
             return portNumber;
         }
     }
+
+    private String getHostName() {
+        String hostName = null;
+
+        try {
+            if (this.args.length == 3) {
+                hostName = this.args[1];
+            } else {
+                throw new IllegalArgumentException("Wrong arguments number");
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            return hostName;
+        }
+    }
 }
