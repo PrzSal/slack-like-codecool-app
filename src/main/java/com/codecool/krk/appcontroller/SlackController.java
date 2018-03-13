@@ -19,4 +19,24 @@ public class SlackController {
 
         return userChoice;
     }
+
+    private int getPortNumber() {
+        int portNumber = -1;
+
+        try {
+            if (this.args.length == 2) {
+                portNumber = Integer.parseInt(this.args[1]);
+            } else if (args.length == 3) {
+                portNumber = Integer.parseInt(this.args[2]);
+            } else {
+                throw new IllegalArgumentException("Wrong arguments number");
+            }
+        } catch (NumberFormatException e) {
+            System.err.println(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            return portNumber;
+        }
+    }
 }
