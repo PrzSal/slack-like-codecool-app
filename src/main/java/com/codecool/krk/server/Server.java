@@ -29,4 +29,7 @@ public class Server {
     public void addUserThread(String userName, Thread userThread) {
 
     }
+
+    public void removeUser(String userName) {}
+
 }
