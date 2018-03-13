@@ -28,7 +28,7 @@ public class Server {
     }
 
     public void addUserThread(String userName, Thread userThread) {
-
+        this.userThreads.put(userName, userThread);
     }
 
     public void removeUser(String userName) {
