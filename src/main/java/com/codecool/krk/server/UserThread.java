@@ -5,27 +5,21 @@ import com.codecool.krk.message.Message;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 
 public class UserThread extends Thread {
-    private Socket socket;
     private Server server;
     private ObjectOutputStream out;
     ObjectInputStream in;
 
-    public UserThread(Socket socket, Server server) {
-        this.socket = socket;
+    public UserThread(Server server, ObjectOutputStream out, ObjectInputStream in) {
         this.server = server;
+        this.out = out;
+        this.in = in;
     }
 
     @Override
     public void run() {
-        try (ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-             ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
-
-            this.out = out;
-            this.in = in;
-
+        try {
             Message controlMessage = (Message) in.readObject();
 
             if (controlMessage.getContent().equalsIgnoreCase("control")) {
