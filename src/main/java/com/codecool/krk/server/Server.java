@@ -3,6 +3,9 @@ package com.codecool.krk.server;
 import com.codecool.krk.message.Message;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
@@ -20,7 +23,21 @@ public class Server {
     }
 
     public void execute() {
+        try (ServerSocket serverSocket = new ServerSocket(this.portNumber)) {
+            System.out.println("Chat Server is listening on port " + port);
 
+            while (true) {
+                Socket socket = serverSocket.accept();
+                System.out.println("New user connected");
+
+                Thread newUserThread = new UserThread(socket, this);
+                newUserThread.start();
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error in the server: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void broadcastMessage(Message message, Thread excludeUser) {
