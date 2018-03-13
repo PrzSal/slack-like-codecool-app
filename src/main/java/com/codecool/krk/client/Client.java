@@ -17,4 +17,30 @@ public class Client {
         this.portNumber = portNumber;
         this.userName = userName;
     }
+
+    public BufferedReader getStdIn() {
+        return stdIn;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public Thread getOutput() {
+        return output;
+    }
+
+    public void setOutput(Thread output) {
+        this.output = output;
+    }
+
+    public Thread getInput() {
+        return input;
+    }
+
+    public void setInput(Thread input) {
+        this.input = input;
+    }
+
+    
 }
