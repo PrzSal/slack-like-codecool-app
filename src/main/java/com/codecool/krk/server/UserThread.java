@@ -5,6 +5,7 @@ import com.codecool.krk.message.Message;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.NoSuchElementException;
 
 public class UserThread extends Thread {
     private Server server;
@@ -32,11 +33,15 @@ public class UserThread extends Thread {
                 } while (clientMessage.getContent().equalsIgnoreCase(".quit!"));
 
                 server.removeUser(clientMessage.getAuthor());
+            } else {
+                // maybe custom exception
+                throw new NoSuchElementException("No control message from Client");
             }
-            // give else with throw some error and message about lack of control message
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchElementException e) {
             e.printStackTrace();
         }
     }
