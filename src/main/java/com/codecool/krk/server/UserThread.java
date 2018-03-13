@@ -25,6 +25,7 @@ public class UserThread extends Thread {
 
             if (controlMessage.getContent().equalsIgnoreCase("control")) {
                 server.addUserThread(controlMessage.getAuthor(), this);
+                sendMessageUserConnected(controlMessage);
 
                 Message clientMessage;
                 do {
@@ -53,8 +54,14 @@ public class UserThread extends Thread {
     }
 
     private void sendMessageUserQuit(Message controlMessage) {
-        Message userQuit = new Message(String.format("%s has quit server",
+        Message userQuit = new Message(String.format("%s has quit the server",
                 controlMessage.getAuthor()), this.server.getName());
         server.broadcastMessage(userQuit, this);
+    }
+
+    private void sendMessageUserConnected(Message controlMessage) {
+        Message userConnected = new Message(String.format("%s has connect the server",
+                controlMessage.getAuthor()), this.server.getName());
+        server.broadcastMessage(userConnected, this);
     }
 }
