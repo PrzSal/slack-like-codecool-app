@@ -24,6 +24,8 @@ public class UserThread extends Thread {
             Message controlMessage = (Message) in.readObject();
 
             if (controlMessage.getContent().equalsIgnoreCase("control")) {
+                sendUsersList();
+
                 server.addUserThread(controlMessage.getAuthor(), this);
                 sendMessageUserConnected(controlMessage);
 
@@ -62,5 +64,12 @@ public class UserThread extends Thread {
         Message userConnected = new Message(String.format("%s has connect the server",
                 controlMessage.getAuthor()), this.server.getName());
         server.broadcastMessage(userConnected, this);
+    }
+
+    private void sendUsersList() throws IOException{
+        if (this.server.hasUsers()) {
+            Message usersList = new Message(this.server.getFormattedUsersList(), this.server.getName());
+            this.sendMessage(usersList);
+        }
     }
 }
