@@ -29,17 +29,12 @@ public class Server {
             System.out.printf("Chat Server is listening on port %d\n", this.portNumber);
 
             while (true) {
-                try {
-                    Socket socket = serverSocket.accept();
+                Socket socket = serverSocket.accept();
 
-                    System.out.println("New user connected");
+                System.out.println("New user connected");
 
-                    Thread newUserThread = new UserThread(socket,this);
-                    newUserThread.start();
-                } catch (IOException e) {
-                    System.out.println("Error in the server: " + e.getMessage());
-                    e.printStackTrace();
-                }
+                Thread newUserThread = new UserThread(socket,this);
+                newUserThread.start();
             }
         } catch (IOException e) {
             System.out.println("Error in the server: " + e.getMessage());
@@ -82,8 +77,9 @@ public class Server {
 
     public String getFormattedUsersList() {
         StringBuilder sb = new StringBuilder("");
+        sb.append("Users list:\n");
         for (String userName: getUserNames()) {
-            sb.append(String.format("%s\n", userName));
+            sb.append(String.format("\t%s\n", userName));
         }
         return sb.toString();
     }
