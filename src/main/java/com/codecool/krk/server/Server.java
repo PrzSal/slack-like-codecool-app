@@ -25,4 +25,8 @@ public class Server {
     public void broadcastMessage(Message message, Thread excludeUser) {
 
     }
+
+    public void addUserThread(String userName, Thread userThread) {
+
+    }
 }
