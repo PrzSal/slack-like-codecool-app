@@ -33,6 +33,8 @@ public class UserThread extends Thread {
                 } while (clientMessage.getContent().equalsIgnoreCase(".quit!"));
 
                 server.removeUser(clientMessage.getAuthor());
+
+                sendMessageUserQuit(controlMessage);
             } else {
                 // maybe custom exception
                 throw new NoSuchElementException("No control message from Client");
@@ -48,5 +50,11 @@ public class UserThread extends Thread {
 
     public void sendMessage(Message message) throws IOException{
         out.writeObject(message);
+    }
+
+    private void sendMessageUserQuit(Message controlMessage) {
+        Message userQuit = new Message(String.format("%s has quit server",
+                controlMessage.getAuthor()), this.server.getName());
+        server.broadcastMessage(userQuit, this);
     }
 }
