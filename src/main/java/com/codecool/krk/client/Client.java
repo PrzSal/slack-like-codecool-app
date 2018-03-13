@@ -42,5 +42,10 @@ public class Client {
         this.input = input;
     }
 
+    public void interruptThreads() {
+        this.output.interrupt();
+        this.input.interrupt();
+    }
+
 
 }
