@@ -72,6 +72,7 @@ public class Server {
 
     public void removeUser(String userName) {
         this.userThreads.remove(userName);
+        System.out.printf("The user %s quitted\n", userName);
     }
 
     public Set<String> getUserNames() {
