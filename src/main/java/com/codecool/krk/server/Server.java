@@ -81,4 +81,12 @@ public class Server {
     public boolean hasUsers() {
         return !this.userThreads.isEmpty();
     }
+
+    public String getFormattedUsersList() {
+        StringBuilder sb = new StringBuilder("");
+        for (String userName: getUserNames()) {
+            sb.append(String.format("%s\n", userName));
+        }
+        return sb.toString();
+    }
 }
