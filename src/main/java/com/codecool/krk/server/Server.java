@@ -41,8 +41,20 @@ public class Server {
         }
     }
 
-    public void broadcastMessage(Message message, Thread excludeUser) {
-
+    public void broadcastMessage(Message message, Thread excludeUserThread) {
+        try {
+            for (String user: getUserNames()) {
+                Thread thread = this.userThreads.get(user);
+                if (thread != excludeUserThread) {
+                    UserThread userThread = (UserThread) thread;
+                    userThread.sendMessage(message);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
     }
 
     public void broadcastMessage(String message, Thread excludeUser) {
