@@ -44,6 +44,10 @@ public class Server {
 
     }
 
+    public void broadcastMessage(String message, Thread excludeUser) {
+
+    }
+
     public void addUserThread(String userName, Thread userThread) {
         this.userThreads.put(userName, userThread);
     }
