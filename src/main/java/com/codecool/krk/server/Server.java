@@ -32,7 +32,7 @@ public class Server {
     }
 
     public void removeUser(String userName) {
-
+        this.userThreads.remove(userName);
     }
 
     public Set<String> getUserNames() {
