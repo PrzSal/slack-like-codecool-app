@@ -15,4 +15,8 @@ public class Server {
 
         this.userThreads = new LinkedHashMap<>();
     }
+
+    public void execute() {
+
+    }
 }
