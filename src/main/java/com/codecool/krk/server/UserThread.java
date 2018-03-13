@@ -46,4 +46,8 @@ public class UserThread extends Thread {
             e.printStackTrace();
         }
     }
+
+    public void sendMessage(Message message) throws IOException{
+        out.writeObject(message);
+    }
 }
