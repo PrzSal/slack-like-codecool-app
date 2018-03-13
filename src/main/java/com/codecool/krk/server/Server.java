@@ -5,6 +5,7 @@ import com.codecool.krk.message.Message;
 import java.io.BufferedReader;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class Server {
     private BufferedReader stdIn;
@@ -30,6 +31,12 @@ public class Server {
 
     }
 
-    public void removeUser(String userName) {}
+    public void removeUser(String userName) {
+
+    }
+
+    public Set<String> getUserNames() {
+
+    }
 
 }
