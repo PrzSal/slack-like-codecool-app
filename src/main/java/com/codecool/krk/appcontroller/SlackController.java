@@ -1,5 +1,8 @@
 package com.codecool.krk.appcontroller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
 public class SlackController {
 
     String[] args;
@@ -53,6 +56,19 @@ public class SlackController {
             System.err.println(e.getMessage());
         } finally {
             return hostName;
+        }
+    }
+
+    private String getUserName(BufferedReader stdIn) {
+        String userName = null;
+
+        try {
+            System.out.printf("What's your name: ");
+            userName = stdIn.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            return userName;
         }
     }
 }
