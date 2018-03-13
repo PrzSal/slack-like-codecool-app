@@ -1,6 +1,7 @@
 package com.codecool.krk.appcontroller;
 
 import com.codecool.krk.client.Client;
+import com.codecool.krk.server.Server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -83,5 +84,10 @@ public class SlackController {
                 client.execute();
             }
         }
+    }
+
+    private void startServer(BufferedReader stdIn, int portNumber) {
+        Server server = new Server(stdIn, portNumber);
+        server.execute();
     }
 }
