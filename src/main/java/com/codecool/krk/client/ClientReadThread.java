@@ -17,7 +17,7 @@ public class ClientReadThread extends Thread {
     public void run() {
         while (true) {
             try {
-                // throw EOFException when force disconnect client
+                // throw EOFException when force disconnect server
                 Message serverMessage = (Message) this.objectInputStream.readObject();
                 System.out.printf("%s> %s\n", serverMessage.getAuthor(), serverMessage.getContent());
             } catch (SocketException e) {
