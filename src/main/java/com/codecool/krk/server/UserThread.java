@@ -14,8 +14,6 @@ public class UserThread extends Thread {
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
-
-
     public UserThread(Socket socket, Server server) {
         this.socket = socket;
         this.server = server;
