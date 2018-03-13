@@ -28,10 +28,9 @@ public class ClientWriteThread extends Thread {
         do {
             try {
                 userInput = this.client.getStdIn().readLine();
-                if (!userInput.equalsIgnoreCase(".quit!")) {
-                    Message newMessage = new Message(userInput, this.client.getUserName());
-                    objectOutputStream.writeObject(newMessage);
-                }
+                Message newMessage = new Message(userInput, this.client.getUserName());
+                objectOutputStream.writeObject(newMessage);
+
             } catch (IOException e) {
                 e.printStackTrace();
                 break;
