@@ -1,4 +1,4 @@
-package com.codecool.krk;
+package com.codecool.krk.message;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
