@@ -34,14 +34,17 @@ public class Server {
             System.out.printf("Chat Server is listening on port %d\n", this.portNumber);
 
             while (true) {
-                try (Socket socket = serverSocket.accept();
-                     ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                     ObjectInputStream in = new ObjectInputStream(socket.getInputStream())
-                ) {
+                try {
+                    Socket socket = serverSocket.accept();
+                    ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
                     System.out.println("New user connected");
 
                     Thread newUserThread = new UserThread(this, out, in);
                     newUserThread.start();
+                } catch (IOException e) {
+                    System.out.println("Error in the server: " + e.getMessage());
+                    e.printStackTrace();
                 }
             }
         } catch (IOException e) {
