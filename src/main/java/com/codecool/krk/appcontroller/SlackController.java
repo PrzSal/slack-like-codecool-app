@@ -115,4 +115,16 @@ public class SlackController {
             System.err.println(e.getMessage());
         }
     }
+
+    private void startApp() {
+        try {
+            if (this.args.length >= 2 && this.args.length <= 3) {
+                startNetChat();
+            } else {
+                throw new IllegalArgumentException("Wrong arguments number");
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }
