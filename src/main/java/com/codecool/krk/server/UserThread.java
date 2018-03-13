@@ -34,6 +34,7 @@ public class UserThread extends Thread {
 
                 Message clientMessage;
                 do {
+                    // throw EOFException when force disconnect client
                     clientMessage = (Message) in.readObject();
                     if (!clientMessage.getContent().equalsIgnoreCase(".quit!")) {
                         server.broadcastMessage(clientMessage, this);
@@ -52,6 +53,8 @@ public class UserThread extends Thread {
             e.printStackTrace();
         } catch (NoSuchElementException e) {
             e.printStackTrace();
+        } finally {
+            closeResources();
         }
     }
 
@@ -78,12 +81,19 @@ public class UserThread extends Thread {
         }
     }
 
-    private void setupStreams() {
-        try {
+    private void setupStreams() throws IOException {
             this.out = new ObjectOutputStream(this.socket.getOutputStream());
             this.in = new ObjectInputStream(this.socket.getInputStream());
+    }
+
+    private void closeResources() {
+        try {
+            this.in.close();
+            this.out.close();
+            this.socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }
