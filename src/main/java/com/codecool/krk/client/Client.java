@@ -74,7 +74,7 @@ public class Client {
             output.start();
             input.start();
 
-            while (!this.input.isInterrupted());
+            while (!this.input.isInterrupted() && !this.output.isInterrupted());
 
         } catch (UnknownHostException e) {
             System.err.println(e.getMessage());

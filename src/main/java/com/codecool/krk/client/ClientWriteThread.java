@@ -4,6 +4,7 @@ import com.codecool.krk.message.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.SocketException;
 
 public class ClientWriteThread extends Thread {
 
@@ -46,6 +47,9 @@ public class ClientWriteThread extends Thread {
                     }
                 }
                 objectOutputStream.writeObject(newMessage);
+            } catch (SocketException e) {
+                System.err.println("Server has been disconnected");
+                break;
             } catch (IOException e) {
                 e.printStackTrace();
                 break;
