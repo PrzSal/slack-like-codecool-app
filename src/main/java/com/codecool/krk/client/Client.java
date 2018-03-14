@@ -20,6 +20,7 @@ public class Client {
     private Thread output;
     private Thread input;
     private Set<String> rooms;
+    private String actualRoom;
 
     public Client(BufferedReader stdIn, String hostName, int portNumber, String userName) {
         this.stdIn = stdIn;
@@ -52,6 +53,14 @@ public class Client {
 
     public void setInput(Thread input) {
         this.input = input;
+    }
+
+    public String getActualRoom() {
+        return actualRoom;
+    }
+
+    public void setActualRoom(String actualRoom) {
+        this.actualRoom = actualRoom;
     }
 
     public void execute() {
