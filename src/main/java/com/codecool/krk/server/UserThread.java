@@ -2,6 +2,7 @@ package com.codecool.krk.server;
 
 import com.codecool.krk.message.Message;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,6 +13,7 @@ public class UserThread extends Thread {
     private Server server;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private String userName;
 
     public UserThread(Socket socket, Server server) {
         this.socket = socket;
@@ -28,23 +30,27 @@ public class UserThread extends Thread {
             if (controlMessage.getContent().equalsIgnoreCase("control")) {
                 sendUsersList();
 
-                server.addUserThread(controlMessage.getAuthor(), this);
-                sendMessageUserConnected(controlMessage);
+                this.userName = controlMessage.getAuthor();
+
+                server.addUserThread(this.userName, this);
+                sendMessageUserConnected();
 
                 Message clientMessage;
                 do {
-                    // throw EOFException when force disconnect client
                     clientMessage = (Message) in.readObject();
                     if (!clientMessage.getContent().equalsIgnoreCase(".quit!")) {
                         server.broadcastMessage(clientMessage, this);
                     }
                 } while (!clientMessage.getContent().equalsIgnoreCase(".quit!"));
 
-                sendMessageUserQuit(controlMessage);
-                server.removeUser(clientMessage.getAuthor());
+                sendMessageUserQuit();
+                server.removeUser(this.userName);
             } else {
                 throw new NoControlMessageException("No control message from Client");
             }
+        } catch (EOFException e) {
+            System.err.printf("%s disconnected from server\n", this.userName);
+            this.server.removeUser(this.userName);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -60,15 +66,15 @@ public class UserThread extends Thread {
         out.writeObject(message);
     }
 
-    private void sendMessageUserQuit(Message controlMessage) {
+    private void sendMessageUserQuit() {
         Message userQuit = new Message(String.format("%s has quit the server",
-                controlMessage.getAuthor()), this.server.getName(), "main_room");
+                this.userName), this.server.getName(), "main_room");
         server.broadcastMessage(userQuit, this);
     }
 
-    private void sendMessageUserConnected(Message controlMessage) {
+    private void sendMessageUserConnected() {
         Message userConnected = new Message(String.format("%s has connect the server",
-                controlMessage.getAuthor()), this.server.getName(), "main_room");
+                this.userName), this.server.getName(), "main_room");
         server.broadcastMessage(userConnected, this);
     }
 
