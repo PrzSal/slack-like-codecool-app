@@ -6,6 +6,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class Client {
 
@@ -15,12 +19,15 @@ public class Client {
     private String userName;
     private Thread output;
     private Thread input;
+    private Set<String> rooms;
 
     public Client(BufferedReader stdIn, String hostName, int portNumber, String userName) {
         this.stdIn = stdIn;
         this.hostName = hostName;
         this.portNumber = portNumber;
         this.userName = userName;
+        joinToDefaultRoom();
+
     }
 
     public BufferedReader getStdIn() {
@@ -67,11 +74,13 @@ public class Client {
         }
     }
 
-
     public void interruptThreads() {
         this.output.interrupt();
         this.input.interrupt();
     }
 
-
+    private void joinToDefaultRoom() {
+        this.rooms = new HashSet<>();
+        this.rooms.add("main_room");
+    }
 }
