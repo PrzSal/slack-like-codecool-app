@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.NoSuchElementException;
 
 public class UserThread extends Thread {
     private Socket socket;
@@ -44,14 +43,13 @@ public class UserThread extends Thread {
                 sendMessageUserQuit(controlMessage);
                 server.removeUser(clientMessage.getAuthor());
             } else {
-                // maybe custom exception
-                throw new NoSuchElementException("No control message from Client");
+                throw new NoControlMessageException("No control message from Client");
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (NoSuchElementException e) {
+        } catch (NoControlMessageException e) {
             e.printStackTrace();
         } finally {
             closeResources();
