@@ -101,6 +101,7 @@ public class Client {
         } else {
             this.rooms.add(newRoom);
             this.actualRoom = newRoom;
+            System.out.println("Actual room is " + this.actualRoom);
         }
     }
 
