@@ -18,7 +18,7 @@ public class ClientWriteThread extends Thread {
     @Override
     public void run() {
         try {
-            Message controlMessage = new Message("control", this.client.getUserName());
+            Message controlMessage = new Message("control", this.client.getUserName(), client.getActualRoom());
             objectOutputStream.writeObject(controlMessage);
         } catch (IOException e) {
             e.printStackTrace();
@@ -28,7 +28,7 @@ public class ClientWriteThread extends Thread {
         do {
             try {
                 userInput = this.client.getStdIn().readLine();
-                Message newMessage = new Message(userInput, this.client.getUserName());
+                Message newMessage = new Message(userInput, this.client.getUserName(), client.getActualRoom());
                 objectOutputStream.writeObject(newMessage);
 
             } catch (IOException e) {
