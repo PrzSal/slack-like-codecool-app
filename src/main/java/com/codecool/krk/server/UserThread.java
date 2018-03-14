@@ -62,19 +62,19 @@ public class UserThread extends Thread {
 
     private void sendMessageUserQuit(Message controlMessage) {
         Message userQuit = new Message(String.format("%s has quit the server",
-                controlMessage.getAuthor()), this.server.getName());
+                controlMessage.getAuthor()), this.server.getName(), "main_room");
         server.broadcastMessage(userQuit, this);
     }
 
     private void sendMessageUserConnected(Message controlMessage) {
         Message userConnected = new Message(String.format("%s has connect the server",
-                controlMessage.getAuthor()), this.server.getName());
+                controlMessage.getAuthor()), this.server.getName(), "main_room");
         server.broadcastMessage(userConnected, this);
     }
 
     private void sendUsersList() throws IOException{
         if (this.server.hasUsers()) {
-            Message usersList = new Message(this.server.getFormattedUsersList(), this.server.getName());
+            Message usersList = new Message(this.server.getFormattedUsersList(), this.server.getName(), "main_room");
             this.sendMessage(usersList);
         }
     }
