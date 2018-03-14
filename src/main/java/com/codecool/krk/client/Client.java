@@ -103,4 +103,13 @@ public class Client {
             this.actualRoom = newRoom;
         }
     }
+
+    public void removeRoom(String roomToRemove) {
+        if (this.rooms.contains(roomToRemove)) {
+            this.rooms.remove(roomToRemove);
+            this.actualRoom = "main_room";
+        } else {
+            System.out.println("Room to remove don't exist");
+        }
+    }
 }
