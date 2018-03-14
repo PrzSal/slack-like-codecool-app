@@ -31,13 +31,29 @@ public class Client {
         return userName;
     }
 
+    public Thread getOutput() {
+        return output;
+    }
+
+    public void setOutput(Thread output) {
+        this.output = output;
+    }
+
+    public Thread getInput() {
+        return input;
+    }
+
+    public void setInput(Thread input) {
+        this.input = input;
+    }
+
     public void execute() {
         try (Socket serverSocket = new Socket(this.hostName, this.portNumber);
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(serverSocket.getOutputStream());
              ObjectInputStream objectInputStream = new ObjectInputStream(serverSocket.getInputStream())
         ){
             this.output = new ClientWriteThread(objectOutputStream, this);
-            this.input = new ClientReadThread(objectInputStream, this);
+            this.input = new ClientReadThread(objectInputStream);
 
             output.start();
             input.start();
@@ -50,6 +66,7 @@ public class Client {
             System.err.println(e.getMessage());
         }
     }
+
 
     public void interruptThreads() {
         this.output.interrupt();
