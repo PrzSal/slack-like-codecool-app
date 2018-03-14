@@ -2,11 +2,11 @@ package com.codecool.krk.server;
 
 import com.codecool.krk.message.Message;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 
 public class UserThread extends Thread {
     private Socket socket;
@@ -34,6 +34,7 @@ public class UserThread extends Thread {
 
                 Message clientMessage;
                 do {
+                    // throw EOFException when force disconnect client
                     clientMessage = (Message) in.readObject();
                     if (!clientMessage.getContent().equalsIgnoreCase(".quit!")) {
                         server.broadcastMessage(clientMessage, this);
@@ -43,15 +44,14 @@ public class UserThread extends Thread {
                 sendMessageUserQuit(controlMessage);
                 server.removeUser(clientMessage.getAuthor());
             } else {
-                throw new NoControlMessageException("No control message from Client");
+                // maybe custom exception
+                throw new NoSuchElementException("No control message from Client");
             }
-        } catch (EOFException e) {
-            System.err.println("Client disconnected from server");
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (NoControlMessageException e) {
+        } catch (NoSuchElementException e) {
             e.printStackTrace();
         } finally {
             closeResources();
