@@ -29,8 +29,23 @@ public class ClientWriteThread extends Thread {
             try {
                 userInput = this.client.getStdIn().readLine();
                 Message newMessage = new Message(userInput, this.client.getUserName(), client.getActualRoom());
+                if (newMessage.getContent().startsWith(".connect!")) {
+                    String[] parseMessage = newMessage.getContent().split("\\s+", 2);
+                    if (parseMessage.length == 2) {
+                        client.addRoom(parseMessage[1]);
+                    }
+                } else if (newMessage.getContent().startsWith(".disconnect!")) {
+                    String[] parseMessage = newMessage.getContent().split("\\s+", 2);
+                    if (parseMessage.length == 2) {
+                        client.removeRoom(parseMessage[1]);
+                    }
+                } else if (newMessage.getContent().startsWith(".change_room!")) {
+                    String[] parseMessage = newMessage.getContent().split("\\s+", 2);
+                    if (parseMessage.length == 2) {
+                        client.addRoom(parseMessage[1]);
+                    }
+                }
                 objectOutputStream.writeObject(newMessage);
-
             } catch (IOException e) {
                 e.printStackTrace();
                 break;
