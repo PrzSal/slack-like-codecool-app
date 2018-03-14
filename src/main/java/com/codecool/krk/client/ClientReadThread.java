@@ -9,9 +9,11 @@ import java.net.SocketException;
 
 public class ClientReadThread extends Thread {
     private ObjectInputStream objectInputStream;
+    private Client client;
 
-    public ClientReadThread(ObjectInputStream objectInputStream) {
+    public ClientReadThread(ObjectInputStream objectInputStream, Client client) {
         this.objectInputStream = objectInputStream;
+        this.client = client;
     }
 
     @Override
@@ -23,6 +25,7 @@ public class ClientReadThread extends Thread {
             } catch (SocketException e) {
                 break;
             } catch (EOFException e) {
+                this.client.interruptThreads();
                 break;
             } catch (IOException e) {
                 e.printStackTrace();

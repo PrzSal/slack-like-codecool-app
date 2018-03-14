@@ -69,7 +69,7 @@ public class Client {
              ObjectInputStream objectInputStream = new ObjectInputStream(serverSocket.getInputStream())
         ){
             this.output = new ClientWriteThread(objectOutputStream, this);
-            this.input = new ClientReadThread(objectInputStream);
+            this.input = new ClientReadThread(objectInputStream, this);
 
             output.start();
             input.start();
