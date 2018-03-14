@@ -96,13 +96,9 @@ public class Client {
     }
 
     public void addRoom(String newRoom) {
-        if (this.rooms.contains(newRoom)){
-            System.out.println("This room is exist!");
-        } else {
-            this.rooms.add(newRoom);
-            this.actualRoom = newRoom;
-            System.out.println("Actual room is " + this.actualRoom);
-        }
+        this.rooms.add(newRoom);
+        this.actualRoom = newRoom;
+        System.out.printf("You connect to %s\n", this.actualRoom);
     }
 
     public void removeRoom(String roomToRemove) {
