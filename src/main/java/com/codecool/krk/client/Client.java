@@ -90,6 +90,8 @@ public class Client {
 
     private void joinToDefaultRoom() {
         this.rooms = new HashSet<>();
-        this.rooms.add("main_room");
+        String room = "main_room";
+        this.rooms.add(room);
+        this.actualRoom = room;
     }
 }
