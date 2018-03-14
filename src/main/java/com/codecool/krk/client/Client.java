@@ -94,4 +94,13 @@ public class Client {
         this.rooms.add(room);
         this.actualRoom = room;
     }
+
+    public void addRoom(String newRoom) {
+        if (this.rooms.contains(newRoom)){
+            System.out.println("This room is exist!");
+        } else {
+            this.rooms.add(newRoom);
+            this.actualRoom = newRoom;
+        }
+    }
 }
