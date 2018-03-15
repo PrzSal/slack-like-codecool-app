@@ -31,7 +31,6 @@ public class UserThread extends Thread {
                 sendUsersList();
 
                 this.userName = controlMessage.getAuthor();
-
                 server.addUserThread(this.userName, this);
                 sendMessageUserConnected();
 
@@ -49,7 +48,8 @@ public class UserThread extends Thread {
                 throw new NoControlMessageException("No control message from Client");
             }
         } catch (EOFException e) {
-            System.err.printf("%s disconnected from server\n", this.userName);
+//            System.err.printf("%s disconnected from server\n", this.userName);
+            sendMessageUserQuit();
             this.server.removeUser(this.userName);
         } catch (IOException e) {
             e.printStackTrace();
