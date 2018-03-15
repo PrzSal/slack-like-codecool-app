@@ -48,7 +48,7 @@ public class UserThread extends Thread {
                 throw new NoControlMessageException("No control message from Client");
             }
         } catch (EOFException e) {
-//            System.err.printf("%s disconnected from server\n", this.userName);
+            System.err.printf("%s disconnected from server\n", this.userName);
             sendMessageUserQuit();
             this.server.removeUser(this.userName);
         } catch (IOException e) {
