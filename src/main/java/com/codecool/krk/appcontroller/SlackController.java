@@ -2,23 +2,19 @@ package com.codecool.krk.appcontroller;
 
 import com.codecool.krk.client.Client;
 import com.codecool.krk.server.Server;
+import javafx.fxml.FXML;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class SlackController {
-    private String[] args;
 
-    public SlackController(String[] args) {
-        this.args = args;
-    }
-
-    private  Mode getUserChoice() {
+    private Mode getUserChoice() {
         Mode userChoice;
 
         try {
-            userChoice = Mode.valueOf(this.args[0].toUpperCase());
+            userChoice = Mode.valueOf(UserWindowController.userWindowController.server.getText());
         } catch (IllegalArgumentException e) {
             userChoice = Mode.NOT_VALID;
         }
@@ -30,13 +26,8 @@ public class SlackController {
         int portNumber = -1;
 
         try {
-            if (this.args.length == 2) {
-                portNumber = Integer.parseInt(this.args[1]);
-            } else if (args.length == 3) {
-                portNumber = Integer.parseInt(this.args[2]);
-            } else {
-                throw new IllegalArgumentException("Wrong arguments number");
-            }
+
+            portNumber = Integer.parseInt(UserWindowController.userWindowController.portNumber.getText());
         } catch (NumberFormatException e) {
             System.err.println(e.getMessage());
         } catch (IllegalArgumentException e) {
@@ -50,10 +41,8 @@ public class SlackController {
         String hostName = null;
 
         try {
-            if (this.args.length == 3) {
-                hostName = this.args[1];
-            } else {
-                throw new IllegalArgumentException("Wrong arguments number");
+            if (UserWindowController.userWindowController.server.getText() == null) {
+                hostName = "localhost";
             }
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
@@ -62,25 +51,17 @@ public class SlackController {
         }
     }
 
-    private String getUserName(BufferedReader stdIn) {
-        String userName = null;
-
-        try {
-            System.out.printf("What's your name: ");
-            userName = stdIn.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            return userName;
-        }
+    private String getUserName() {
+        String userName = UserWindowController.userWindowController.login.getText();
+        return userName;
     }
 
-    private void startClient(BufferedReader stdIn, String hostName, int portNumber) {
+    private void startClient(String hostName, int portNumber) {
         if (hostName != null) {
-            String userName = getUserName(stdIn);
+            String userName = getUserName();
 
             if (userName != null) {
-                Client client = new Client(stdIn, hostName, portNumber, userName);
+                Client client = new Client(UserWindowController.userWindowController.login.getText(), hostName, portNumber, userName);
                 client.execute();
             }
         }
@@ -91,39 +72,26 @@ public class SlackController {
         server.execute();
     }
 
-    private void startNetChat() {
-        try (BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))){
-            int portNumber = getPortNumber();
-            Mode userChoice = getUserChoice();
+    public void startNetChat() {
 
-            if (portNumber != -1) {
-                switch (userChoice) {
-                    case SERVER:
-                        startServer(portNumber);
-                        break;
-                    case CLIENT:
-                        String hostName = getHostName();
-                        startClient(stdIn, hostName, portNumber);
-                        break;
-                    default:
-                        System.err.println("No such mode");
-                        break;
-                }
+        int portNumber = getPortNumber();
+        Mode userChoice = getUserChoice();
+
+        if (portNumber != -1) {
+            switch (userChoice) {
+                case SERVER:
+                    startServer(portNumber);
+                    break;
+                case CLIENT:
+                    String hostName = getHostName();
+                    startClient(hostName, portNumber);
+                    break;
+                default:
+                    System.err.println("No such mode");
+                    break;
             }
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
         }
+
     }
 
-    public void startApp() {
-        try {
-            if (this.args.length >= 2 && this.args.length <= 3) {
-                startNetChat();
-            } else {
-                throw new IllegalArgumentException("Wrong arguments number");
-            }
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-    }
 }

@@ -22,7 +22,7 @@ public class Client {
     private Set<String> rooms;
     private String actualRoom;
 
-    public Client(BufferedReader stdIn, String hostName, int portNumber, String userName) {
+    public Client(String userInput, String hostName, int portNumber, String userName) {
         this.stdIn = stdIn;
         this.hostName = hostName;
         this.portNumber = portNumber;
